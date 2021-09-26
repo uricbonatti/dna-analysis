@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "9c5bb79e-dd78-4679-8c24-aa8a36542762",
+		"name": "Simian Analysis (Perfect Flight)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Analise de DNA",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dna\":[\"CTGAGA\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/simian",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"simian"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Analise Simio",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dna\":[\"TTTTCA\", \"GAGAGC\", \"AGCCCC\", \"CACCTT\", \"ATGGCT\",\"ATGGCT\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/simian",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"simian"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "18"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"12-TEi/4vHTlesY9O38RyYOVVGsDgY\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Sep 2021 23:21:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"is_simian\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/stats",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"stats"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stats",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stats"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "52"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"34-0IhjEc2u1oVFtmLGjhm65+zxw/U\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Sep 2021 23:21:33 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count_human_dna\": 3,\n    \"count_simian_dna\": 3,\n    \"ratio\": 1\n}"
+				}
+			]
+		},
+		{
+			"name": "Lista de DNAs Analizados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/stats",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"stats"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Lista de DNAs Analizados",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stats/list",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stats",
+								"list"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "556"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"22c-V50GEpoQeANIkM52MJN6nnREwkk\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 26 Sep 2021 23:21:36 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"61507d8339123e37f8beb2f6\",\n        \"is_simian\": true,\n        \"dna_chain\": \"ATGACGGACTGACTGA\"\n    },\n    {\n        \"id\": \"61507e3259550a3bd459f864\",\n        \"is_simian\": false,\n        \"dna_chain\": \"CTGGAACTATGCTATTGTAGAGGGCACCTATCACTG\"\n    },\n    {\n        \"id\": \"61507e3b59550a3bd459f865\",\n        \"is_simian\": true,\n        \"dna_chain\": \"CTGAAACTATGCTATTGTAGAGGGCCCCTATCACTG\"\n    },\n    {\n        \"id\": \"61507e5259550a3bd459f866\",\n        \"is_simian\": false,\n        \"dna_chain\": \"ACGTTGCAGTTCATCG\"\n    },\n    {\n        \"id\": \"61507e6759550a3bd459f867\",\n        \"is_simian\": false,\n        \"dna_chain\": \"ACCCGACTGAAACTTA\"\n    },\n    {\n        \"id\": \"61507f698554cb58e0dd89d1\",\n        \"is_simian\": true,\n        \"dna_chain\": \"TTTTCAGAGAGCAGCCCCCACCTTATGGCTATGGCT\"\n    }\n]"
+				}
+			]
+		}
+	]
+}
