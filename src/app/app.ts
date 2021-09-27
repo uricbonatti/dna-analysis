@@ -1,11 +1,10 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
-import { errors } from 'celebrate';
 
 import corsConfig from '../config/corsConfig';
 import analysisRouter from '../routes/analysisRouter';
-import AppError from '../errors/AppError';
+import errorHandler from '../errors/errorHandler';
 
 function app() {
   const expressApp = express();
@@ -14,21 +13,8 @@ function app() {
   expressApp.use(express.json());
   expressApp.use(analysisRouter);
 
-  expressApp.use(errors());
+  expressApp.use(errorHandler);
 
-  expressApp.use(
-    (err: Error, request: Request, response: Response, _: NextFunction) => {
-      if (err instanceof AppError) {
-        return response
-          .status(err.statusCode)
-          .json({ status: 'error', message: err.message });
-      }
-      return response.status(500).json({
-        status: 'error',
-        message: 'Internal server error.'
-      });
-    }
-  );
   return expressApp;
 }
 

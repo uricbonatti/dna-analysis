@@ -6,8 +6,11 @@
   "author": "Uric Bonatti <uricbonatti.eng@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev -r dotenv/config --inspect --transpile-only --ignore-watch node_modules src/app/server.ts dotenv_config_path=.env.local",
-    "test:unit": "jest --silent --setupFiles dotenv/config",
+    "build": "tsc --project tsconfig.build.json",
+    "start": "node dist/app/server.js",
+    "start:dev": "ts-node-dev -r dotenv/config --inspect --transpile-only --ignore-watch node_modules src/app/server.ts dotenv_config_path=.env.local",
+    "start:warn": "node --trace-warnings -r dotenv/config dist/app/server.js dotenv_config_path=.env.warn",
+    "test:unit": "jest --silent --runInBand --setupFiles dotenv/config",
     "lint": "eslint --fix **/*.ts",
     "sonar": "node sonar.config.js"
   },

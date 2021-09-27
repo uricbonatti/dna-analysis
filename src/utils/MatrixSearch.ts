@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import logger from './logger';
 
-const matrix = require('matrix-js');
+const matrixJS = require('matrix-js');
 
 class MatrixSearch {
-  private static sequences: string[];
+  private sequences: string[];
 
-  public static match(matrixData: string[], sequences: string[]) {
+  public match(matrixData: string[], sequences: string[]) {
     logger.info('[MatrixSearch] - match');
     this.sequences = sequences;
     let chainMatched = 0;
@@ -37,7 +37,7 @@ class MatrixSearch {
     return chainMatched;
   }
 
-  private static horizontalAnalysis(data: string[]) {
+  private horizontalAnalysis(data: string[]) {
     logger.info('[MatrixSearch] - horizontalAnalysis');
 
     return data.filter((seg) => {
@@ -45,16 +45,16 @@ class MatrixSearch {
     });
   }
 
-  private static verticalAnalysis(data: string[]) {
+  private verticalAnalysis(data: string[]) {
     logger.info('[MatrixSearch] - verticalAnalysis');
 
     const splitedData = data.map((seg) => seg.split(''));
-    const dataSplitedTransposed: string[][] = matrix(splitedData).trans();
+    const dataSplitedTransposed: string[][] = matrixJS(splitedData).trans();
     const dataTrasposed = dataSplitedTransposed.map((line) => line.join(''));
     return this.horizontalAnalysis(dataTrasposed);
   }
 
-  private static superiorDiagonalAnalysis(data: string[]) {
+  private superiorDiagonalAnalysis(data: string[]) {
     logger.info('[MatrixSearch] - superiorDiagonalAnalysis');
 
     const fragmentChainLength = data[0].length;
@@ -76,11 +76,11 @@ class MatrixSearch {
     return this.horizontalAnalysis(diagsJoined);
   }
 
-  private static inferiorDiagonalAnalysis(data: string[]) {
+  private inferiorDiagonalAnalysis(data: string[]) {
     logger.info('[MatrixSearch] - inferiorDiagonalAnalysis');
 
     const splitedData = data.map((seg) => seg.split(''));
-    const dataSplitedTransposed: string[][] = matrix(splitedData).trans();
+    const dataSplitedTransposed: string[][] = matrixJS(splitedData).trans();
     for (let i = 0; i < splitedData.length; i++) {
       dataSplitedTransposed[i][i] = '*';
     }
@@ -88,7 +88,7 @@ class MatrixSearch {
     return this.superiorDiagonalAnalysis(dataTrasposed);
   }
 
-  private static mirror(data: string[]) {
+  private mirror(data: string[]) {
     logger.info('[MatrixSearch] - mirror');
 
     const splitedData = data.map((seg) => seg.split(''));

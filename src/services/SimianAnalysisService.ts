@@ -25,8 +25,9 @@ class SimianAnalysisService {
       if (dnaExists) {
         return { is_simian: dnaExists.is_simian };
       }
+      const matrixSearch = new MatrixSearch();
       const sequences = ['AAAA', 'TTTT', 'CCCC', 'GGGG'];
-      const sequencesMatched = MatrixSearch.match(dna, sequences);
+      const sequencesMatched = matrixSearch.match(dna, sequences);
 
       const savedAnalysis = await this.dnaRepository.create({
         dna_chain: dnaChainString,

@@ -11,6 +11,7 @@ let server: Server;
 let agent: SuperAgentTest;
 let forceError: boolean;
 let forceAppError: boolean;
+let forceAppError2: boolean;
 
 class GenericMockedServices {
   public async run() {
@@ -20,12 +21,17 @@ class GenericMockedServices {
     if (forceAppError) {
       throw new AppError('Mocked AppError', 403);
     }
+    if (forceAppError2) {
+      throw new AppError('Mocked AppError');
+    }
     return { mocked: true };
   }
 }
 describe('Analysis Routes', () => {
   beforeEach((done) => {
     forceError = false;
+    forceAppError = false;
+    forceAppError2 = false;
     jest
       .spyOn(container, 'resolve')
       .mockReturnValue(new GenericMockedServices());
@@ -52,13 +58,32 @@ describe('Analysis Routes', () => {
       message: 'Internal server error.'
     });
   });
-  it('should return status 500 when occur an error on analisys on GET /stats', async () => {
+  it('should return status 403 when occur an AppError with statuCode on analisys on GET /stats', async () => {
     forceAppError = true;
     const response = await agent.get('/stats');
     expect(response.statusCode).toEqual(403);
     expect(response.body).toEqual({
       status: 'error',
       message: 'Mocked AppError'
+    });
+  });
+  it('should return status 403 when occur an AppError without statuCode on analisys on GET /stats', async () => {
+    forceAppError2 = true;
+    const response = await agent.get('/stats');
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      status: 'error',
+      message: 'Mocked AppError'
+    });
+  });
+  it('should return status 400 when occur an error on validation on POST /simian (2)', async () => {
+    const response = await agent
+      .post('/simian')
+      .send({ dna: ['ACGA', 'TGCA', 'GTTC'] });
+    expect(response.statusCode).toEqual(400);
+    expect(response.body).toEqual({
+      status: 'error',
+      message: "'dna' must contain at least 4 items"
     });
   });
 });

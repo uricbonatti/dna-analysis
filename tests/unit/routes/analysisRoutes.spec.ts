@@ -55,14 +55,21 @@ describe('Analysis Routes', () => {
       .post('/simian')
       .send({ dna: ['ACG', 'TGCA', 'GTTC', 'ATCG'] });
     expect(response.statusCode).toEqual(400);
-    expect(response.body.message).toEqual('Validation failed');
+
+    expect(response.body).toEqual({
+      status: 'error',
+      message: "'dna[0]' length must be at least 4 characters long"
+    });
   });
   it('should return status 400 when occur an error on validation on POST /simian (2)', async () => {
     const response = await agent
       .post('/simian')
       .send({ dna: ['ACGA', 'TGCA', 'GTTC'] });
     expect(response.statusCode).toEqual(400);
-    expect(response.body.message).toEqual('Validation failed');
+    expect(response.body).toEqual({
+      status: 'error',
+      message: "'dna' must contain at least 4 items"
+    });
   });
 
   it('should return status 500 when occur an error on analisys on POST /simian', async () => {
