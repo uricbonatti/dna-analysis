@@ -12,7 +12,7 @@ class AnalysisController {
     try {
       const simianAnalysis = container.resolve(SimianAnalysisService);
       const result = await simianAnalysis.run(dnaChain);
-      return res.status(200).json(result);
+      return res.status(201).json(result);
     } catch (err) {
       logger.error('[AnalysisController] - analysis - Error:', err);
       throw err;

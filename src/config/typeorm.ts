@@ -1,24 +1,14 @@
-import path from 'path';
+import logger from '../utils/logger';
 import { ConnectionOptions, createConnection } from 'typeorm';
 import env from './env';
-
-export function genPath() {
-  let baseUrl = 'src';
-  let extension = '*.ts';
-  if (env.NODE_ENV === 'production') {
-    baseUrl = 'dist';
-    extension = '*.js';
-  }
-  return path.resolve(baseUrl, 'schemas', extension);
-}
-
-const entitiesPath = genPath();
+import Dna from '../schemas/Dna';
 
 export const connectionOptions = {
+  name: 'default',
   type: 'mongodb',
   url: env.DB_URL,
   database: 'perfectflight',
-  entities: [entitiesPath],
+  entities: [Dna],
   useUnifiedTopology: true,
   synchronize: true,
   writeConcern: 'majority',
@@ -26,4 +16,10 @@ export const connectionOptions = {
   useNewUrlParser: true
 } as ConnectionOptions;
 
-createConnection(connectionOptions);
+createConnection(connectionOptions)
+  .then(() => {
+    logger.info('[Database] connection established ');
+  })
+  .catch(() => {
+    logger.error('[Database] connection failed ');
+  });

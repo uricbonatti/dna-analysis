@@ -67,7 +67,6 @@ describe('Dna Repository', () => {
   it('should the found Dna data on findByChain', async () => {
     const data = await repository.findByChain('AAAAA');
     expect(data).not.toBeUndefined();
-    console.log(data);
     if (data) {
       expect(data.dna_chain).toEqual('AAAAA');
       expect(data.is_simian).toBeTruthy();

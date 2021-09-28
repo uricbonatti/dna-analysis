@@ -9,11 +9,21 @@ const setTransports =
     ? []
     : [
         new DaylyFiles({
-          filename: path.resolve(__dirname, '..', '..', 'logs', '%DATE%.log'),
+          filename: 'logs/%DATE%.log',
           datePattern: 'YYYY-MM-DD',
           maxSize: '5m',
           maxFiles: '7d',
           zippedArchive: true
+        }),
+        new transports.Console({
+          format: format.combine(
+            format.simple(),
+            format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+            format.printf(
+              ({ timestamp, level, message }) =>
+                `[${timestamp}] ${level.toUpperCase()} ${message}`
+            )
+          )
         })
       ];
 
@@ -29,20 +39,5 @@ const logger = createLogger({
   ),
   transports: setTransports
 });
-
-if (env.NODE_ENV !== 'production' && env.NODE_ENV !== 'test') {
-  logger.add(
-    new transports.Console({
-      format: format.combine(
-        format.simple(),
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        format.printf(
-          ({ timestamp, level, message }) =>
-            `[${timestamp}] ${level.toUpperCase()} ${message}`
-        )
-      )
-    })
-  );
-}
 
 export default logger;

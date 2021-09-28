@@ -34,6 +34,10 @@ paths:
           description: "Entrada Invalida"
           schema:
             $ref: "#/definitions/ValidationError"
+        "429":
+          description: "Erro de excesso de requisições por IP"
+          schema:
+            $ref: "#/definitions/LimitAccessError"
         "500":
           description: "Erro interno do Servidor"
           schema:
@@ -58,6 +62,10 @@ paths:
           description: "Erro interno do Servidor"
           schema:
             $ref: "#/definitions/InternalError"
+        "429":
+          description: "Erro de excesso de requisições por IP"
+          schema:
+            $ref: "#/definitions/LimitAccessError"
         "200":
           description: "Calculo da Razão"
           schema:
@@ -74,6 +82,10 @@ paths:
       produces:
       - "application/json"
       responses:
+        "429":
+          description: "Erro de excesso de requisições por IP"
+          schema:
+            $ref: "#/definitions/LimitAccessError"
         "500":
           description: "Erro interno do Servidor"
           schema:
@@ -102,6 +114,15 @@ definitions:
       message:
         type: "string"
         example: "'dna' must contain at least 4 items"
+  LimitAccessError:
+    type: "object"
+    properties:
+      status:
+        type: "string"
+        example: "error"
+      message:
+        type: "string"
+        example: "Too many requests from this IP, please try again after 5 minutes"
   AnalysisResult:
     type: "object"
     properties:
