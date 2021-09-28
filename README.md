@@ -12,7 +12,7 @@ O projeto utiliza de endpoints seguindo a o padrão REST, documentados através 
 <details>
 <summary>Código para abrir a documentação no [Swagger](http://editor.swagger.io )</summary>
     
-    ```yaml
+```yaml
     swagger: "2.0"
     info:
       description: "API voltada para a classificação de simios e não simios com base em cadeia de DNA."
@@ -181,7 +181,8 @@ O projeto utiliza de endpoints seguindo a o padrão REST, documentados através 
               pattern: '^[acgtACGT]*$'
               minLength: 4
             example: ["TTTTCA", "GAGAGC", "AGCCCC", "CACCTT", "ATGGCT","ATGGCT"]
-    ```
+```
+    
 </details>    
 
 ## Executando
