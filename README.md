@@ -9,8 +9,8 @@ Projeto desenvolvido em para solucionar o Desafio proposto pela Perfect Flight, 
 ## Swagger
 
 O projeto utiliza de endpoints seguindo a o padrão REST, documentados através do [swagger](http://editor.swagger.io )
-
-- Código para abrir a documentação no [Swagger](http://editor.swagger.io )
+<details>
+<summary>Código para abrir a documentação no [Swagger](http://editor.swagger.io )</summary>
     
     ```yaml
     swagger: "2.0"
@@ -182,7 +182,7 @@ O projeto utiliza de endpoints seguindo a o padrão REST, documentados através 
               minLength: 4
             example: ["TTTTCA", "GAGAGC", "AGCCCC", "CACCTT", "ATGGCT","ATGGCT"]
     ```
-    
+</details>    
 
 ## Executando
 
