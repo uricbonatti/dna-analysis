@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import logger from './logger';
 
 const matrixJS = require('matrix-js');

@@ -1,25 +1,15 @@
-import logger from '../utils/logger';
-import { ConnectionOptions, createConnection } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 import env from './env';
 import Dna from '../schemas/Dna';
 
-export const connectionOptions = {
-  name: 'default',
+export const dataSourceOptions: DataSourceOptions = {
   type: 'mongodb',
   url: env.DB_URL,
   database: 'perfectflight',
   entities: [Dna],
-  useUnifiedTopology: true,
   synchronize: true,
-  writeConcern: 'majority',
-  logging: false,
-  useNewUrlParser: true
-} as ConnectionOptions;
+  writeConcern: { w: 'majority' },
+  logging: false
+};
 
-createConnection(connectionOptions)
-  .then(() => {
-    logger.info('[Database] connection established ');
-  })
-  .catch(() => {
-    logger.error('[Database] connection failed ');
-  });
+export const dataSource = new DataSource(dataSourceOptions);

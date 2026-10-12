@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import 'reflect-metadata';
 import AnalysisController from './../../../src/controllers/AnalysisController';
 

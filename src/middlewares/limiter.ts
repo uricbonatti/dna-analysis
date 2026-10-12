@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import rateLimiter from 'express-rate-limit';
 import env from '../config/env';
 

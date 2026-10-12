@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import Dna from './../../../src/schemas/Dna';
 
 jest.mock('../../../src/repositories/getMongoRepository');
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 const mockedGetMongoRepo = getMongoRepository as jest.MockedFunction<any>;
 
 let repository: DnaRepository;
@@ -14,13 +14,13 @@ describe('Dna Repository', () => {
   beforeEach(() => {
     forceError = false;
     mockedGetMongoRepo.mockReturnValue({
-      count: jest.fn().mockImplementation(() => {
+      countDocuments: jest.fn().mockImplementation(() => {
         if (forceError) {
           throw new Error();
         }
         return 4;
       }),
-      findOne: jest.fn().mockImplementation((data) => {
+      findOneBy: jest.fn().mockImplementation((data) => {
         if (forceError) {
           throw new Error();
         }

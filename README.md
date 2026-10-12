@@ -1,205 +1,75 @@
-# Dna-Analysis
+# DNA Analysis
 
-## Objetivo
+[![CI](https://github.com/uricbonatti/dna-analysis/actions/workflows/ci.yml/badge.svg)](https://github.com/uricbonatti/dna-analysis/actions/workflows/ci.yml)
+![Node](https://img.shields.io/badge/node-22%20%7C%2024-339933?logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-7-47A248?logo=mongodb&logoColor=white)
 
-Projeto desenvolvido em para solucionar o Desafio proposto pela Perfect Flight, o mesmo apresenta-se descrito no arquivo abaixo:
+API REST que identifica se uma sequência de DNA pertence a um **símio** ou a um **humano**, e guarda estatísticas das análises. Foi feita como solução do [desafio técnico](docs/Desafio.pdf) da Perfect Flight (2021).
 
-[Desafio.pdf](Dna-Analysis%20aa01f752b34145518c4d9a75a1662938/Desafio(1).pdf)
+Um DNA é de símio quando a matriz **N×N** tem **2 ou mais sequências de quatro letras iguais** (`AAAA`, `TTTT`, `CCCC`, `GGGG`) na horizontal, na vertical ou nas diagonais.
 
-## Swagger
+## Destaques técnicos
 
-O projeto utiliza de endpoints seguindo a o padrão REST, documentados através do [Swagger](http://editor.swagger.io )
-<details>
-<summary>
-    Código para abrir a documentação no Swagger 
-</summary>
-    
-```yaml
-    swagger: "2.0"
-    info:
-      description: "API voltada para a classificação de simios e não simios com base em cadeia de DNA."
-      version: "1.0.0"
-      title: "Dna Analysis"
-      contact:
-        email: "uricbonatti.eng@gmail.com"
-    host: "localhost:8000"
-    basePath: "/"
-    schemes:
-    - "https"
-    - "http"
-    paths:
-      /simian:
-        post:
-          tags:
-          - "Analisys"
-          summary: "Analisa uma cadeia de DNA"
-          description: "Realiza a busca por sequencias dentro da cadeia de DNA que correspondem a um simio"
-          operationId: "analisysChain"
-          consumes:
-          - "application/json"
-          produces:
-          - "application/json"
-          parameters:
-          - in: "body"
-            name: "body"
-            description: "Para analisar uma cadeia de DNA é necessario envia-la em um formato de um vetor de strings de dimensões NxN"
-            required: true
-            schema:
-              $ref: "#/definitions/DnaToAnalyse"
-          responses:
-            "400":
-              description: "Entrada Invalida"
-              schema:
-                $ref: "#/definitions/ValidationError"
-            "429":
-              description: "Erro de excesso de requisições por IP"
-              schema:
-                $ref: "#/definitions/LimitAccessError"
-            "500":
-              description: "Erro interno do Servidor"
-              schema:
-                $ref: "#/definitions/InternalError"
-            "200":
-              description: "Analise bem sucedida"
-              schema:
-                $ref: "#/definitions/AnalysisResult"
-      /stats:
-        get:
-          tags:
-          - "Analisys"
-          summary: "Calcula a razão de DNA de simios para não simios"
-          description: "Calcula a razão de DNA de simios para não simios e apresenta junto do numero de dnas analisados"
-          operationId: "analysisRatio"
-          consumes:
-          - "application/json"
-          produces:
-          - "application/json"
-          responses:
-            "500":
-              description: "Erro interno do Servidor"
-              schema:
-                $ref: "#/definitions/InternalError"
-            "429":
-              description: "Erro de excesso de requisições por IP"
-              schema:
-                $ref: "#/definitions/LimitAccessError"
-            "200":
-              description: "Calculo da Razão"
-              schema:
-                $ref: "#/definitions/Ratio"
-      /stats/list:
-        get:
-          tags:
-          - "Analisys"
-          summary: "Retorna a lista de DNAs analisados"
-          description: "Retorna a lista de DNAs analisados e o resultado obtido na analise"
-          operationId: "analysisList"
-          consumes:
-          - "application/json"
-          produces:
-          - "application/json"
-          responses:
-            "429":
-              description: "Erro de excesso de requisições por IP"
-              schema:
-                $ref: "#/definitions/LimitAccessError"
-            "500":
-              description: "Erro interno do Servidor"
-              schema:
-                $ref: "#/definitions/InternalError"
-            "200":
-              description: "Lista de Analises"
-              schema:
-                $ref: "#/definitions/ListDna"
-         
-    definitions:
-      InternalError:
-        type: "object"
-        properties:
-          status:
-            type: "string"
-            example: "error"
-          message:
-            type: "string"
-            example: "Internal Server Error"
-      ValidationError:
-        type: "object"
-        properties:
-          status:
-            type: "string"
-            example: "error"
-          message:
-            type: "string"
-            example: "'dna' must contain at least 4 items"
-      LimitAccessError:
-        type: "object"
-        properties:
-          status:
-            type: "string"
-            example: "error"
-          message:
-            type: "string"
-            example: "Too many requests from this IP, please try again after 5 minutes"
-      AnalysisResult:
-        type: "object"
-        properties:
-          is_simian:
-            type: "boolean"
-            example: true
-      Ratio:
-        type: "object"
-        properties:
-          count_human_dna:
-            type: "integer"
-            example: 6
-          count_simian_dna:
-            type: "integer"
-            example: 3
-          ratio:
-            type: "number"
-            example: 0.5
-      ListDna:
-        type: "array"
-        items:
-          type: object
-          properties:
-            id:
-              type: "string"
-              example: "61507d8339123e37f8beb2f6"
-            is_simian:
-              type: "boolean"
-              example: false
-            dna_chain:
-              type: "string"
-              example: "CTGGAACTATGCTATTGTAGAGGGCACCTATCACTG"
-      DnaToAnalyse:
-        type: 'object'
-        properties:
-          dna:
-            type: 'array'
-            minItems: 4
-            items:
-              type: 'string'
-              pattern: '^[acgtACGT]*$'
-              minLength: 4
-            example: ["TTTTCA", "GAGAGC", "AGCCCC", "CACCTT", "ATGGCT","ATGGCT"]
-```
-    
-</details>    
+- **Arquitetura em camadas** (controller → service → repository) com injeção de dependência (`tsyringe`)
+- **MongoDB + TypeORM 0.3**, com **índice único** em `dna_chain`: um registro por DNA, garantido pelo banco
+- **Validação de entrada** com Joi (`celebrate`) e **rate limit** por IP
+- **Testes:** 36 unitários (~99% de statements) e **7 e2e com Testcontainers**, que sobem um MongoDB real
+- **Docker:** imagem multi-stage com Node 24 e usuário sem privilégios; `docker compose up -d` deixa tudo de pé na porta **8000**, como pede o desafio
 
 ## Executando
 
-Para executar o projeto é necessário ter instalado as seguintes ferramentas:
-
-- Docker
-- Docker-compose
-
-Através do terminal acesse a pasta do projeto e execute o seguinte comando:
+### Com Docker Compose (recomendado)
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
-Através desse comando, o Docker executará a build da imagem do projeto e subira uma imagem do MongoDB e a imagem do projeto que utiliza de uma imagem NodeJS.
+A API sobe em `http://localhost:8000` com o MongoDB.
 
-***Obs.:*** O projeto precisará que a posta 8000 esteja liberada, então caso esteja em uso ocorrera um erro.
+### Localmente
+
+Requer Node.js **22** ou **24** e um MongoDB.
+
+```bash
+cp .env.example .env
+docker run -d --name dna-mongo -p 27017:27017 mongo:7
+npm ci
+npm run start:dev
+```
+
+## Exemplos
+
+```bash
+curl -X POST http://localhost:8000/simian \
+  -H 'Content-Type: application/json' \
+  -d '{"dna": ["CTGAGA", "CTATGC", "TATTGT", "AGAGGG", "CCCCTA", "TCACTG"]}'
+# 200 {"is_simian": true}
+
+curl http://localhost:8000/stats
+# 200 {"count_simian_dna": 1, "count_human_dna": 1, "ratio": 1}
+# sem humanos registrados, o campo "ratio" é omitido
+```
+
+| Rota | Descrição |
+|---|---|
+| `POST /simian` | Analisa a matriz e responde `{"is_simian": boolean}` (200), ou 400 se a entrada for inválida (não N×N, letras fora de A/T/C/G) |
+| `GET /stats` | `count_simian_dna`, `count_human_dna` e `ratio` (símios / humanos) |
+| `GET /stats/list` | Lista as análises registradas |
+
+Documentação completa em [`docs/swagger.yaml`](docs/swagger.yaml) (abra no [Swagger Editor](https://editor.swagger.io)). Há também uma coleção do Postman em [`docs/requests.postman_collection`](docs/requests.postman_collection).
+
+## Testes
+
+```bash
+npm test               # unitários (com --coverage gera o relatório em coverage/)
+npm run test:e2e       # e2e: sobe um MongoDB real com Testcontainers (requer Docker)
+npm run lint
+npm run typecheck
+```
+
+Os e2e cobrem o exemplo do enunciado, humano, reenvio do mesmo DNA (unicidade), índice único no banco, `/stats` e validações. Não precisam de infraestrutura local além do Docker.
+
+## Licença
+
+MIT
