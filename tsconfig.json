@@ -1,19 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
+    "target": "ES2022",
     "module": "commonjs",
+    "moduleResolution": "node10",
     "outDir": "./dist",
-    "rootDir": "./src",
     "strict": true,
-    "allowJs": true,
     "strictPropertyInitialization": false,
-    "baseUrl": "./",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-
-    "moduleResolution": "Node",
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["src/**/*", "tests/**/*"]
 }

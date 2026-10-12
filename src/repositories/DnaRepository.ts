@@ -16,7 +16,7 @@ class DnaRepository implements IDnaRepository {
   public async count(isSimian: boolean): Promise<number> {
     logger.info(`[DnaRepository] - count - isSimian: ${isSimian}`);
     try {
-      return await this.odmRepository.count({ is_simian: isSimian });
+      return await this.odmRepository.countDocuments({ is_simian: isSimian });
     } catch (err) {
       logger.error('[DnaRepository] - count - Error:', err);
       throw err;
@@ -26,7 +26,9 @@ class DnaRepository implements IDnaRepository {
   public async findByChain(chain: string): Promise<Dna | undefined> {
     logger.info(`[DnaRepository] - findByChain - DNA: ${chain}`);
     try {
-      return await this.odmRepository.findOne({ dna_chain: chain });
+      return (
+        (await this.odmRepository.findOneBy({ dna_chain: chain })) ?? undefined
+      );
     } catch (err) {
       logger.error('[DnaRepository] - create - Error:', err);
       throw err;

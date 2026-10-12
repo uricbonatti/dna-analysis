@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isCelebrateError } from 'celebrate';
 import { Request, Response, NextFunction } from 'express';
 import AppError from './AppError';

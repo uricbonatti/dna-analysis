@@ -1,17 +1,18 @@
-FROM node:14.17.4-alpine
-
-WORKDIR /usr
-COPY package.json ./
-RUN npm install --only=production
-COPY tsconfig.json ./
-COPY tsconfig.build.json ./
+FROM node:24-alpine AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY tsconfig.json tsconfig.build.json ./
 COPY src ./src
-RUN npm install -D typescript
-RUN npm run build
-RUN ls -a
-ENV NODE_ENV production
-RUN npm install pm2 -g
+RUN npm run build && npm prune --omit=dev
 
+FROM node:24-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=build /app/package.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+RUN mkdir -p logs && chown node:node logs
+USER node
 EXPOSE 8000
-
-CMD ["pm2-runtime","dist/app/server.js"]
+CMD ["node", "dist/app/server.js"]

@@ -1,14 +1,17 @@
-import { Entity, Column, ObjectIdColumn, ObjectID } from 'typeorm';
+import { Entity, Column, ObjectIdColumn, Index } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity('dna_analysis')
 class Dna {
   @ObjectIdColumn()
-  id: ObjectID;
+  id: ObjectId;
 
   @Column()
   is_simian: boolean;
 
-  @Column({ unique: true })
+  // Índice único no MongoDB: garante 1 registro por DNA (requisito do desafio).
+  @Index({ unique: true })
+  @Column()
   dna_chain: string;
 }
 

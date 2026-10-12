@@ -1,12 +1,11 @@
 import { createLogger, transports, format } from 'winston';
 import DaylyFiles from 'winston-daily-rotate-file';
-import path from 'path';
 
 import env from '../config/env';
 
 const setTransports =
   env.NODE_ENV === 'test'
-    ? []
+    ? [new transports.Console({ silent: true })]
     : [
         new DaylyFiles({
           filename: 'logs/%DATE%.log',
